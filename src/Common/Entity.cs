@@ -9,6 +9,11 @@ public abstract class Entity : IEquatable<Entity>
     {
     }
 
+    protected Entity(Guid id)
+    {
+        Id = id;
+    }
+
     #endregion
 
     #region Properties
