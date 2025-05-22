@@ -1,16 +1,10 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Common;
 
-public  abstract class Entity : IEquatable<Entity>
+public abstract class Entity : IEquatable<Entity>
 {
     #region Constructors
-
-    protected Entity(Guid id)
-    {
-        Id = id;
-        InsertionDate = DateTime.Now;
-        LastModified = DateTime.Now;
-    }
-
     protected Entity()
     {
     }
@@ -19,19 +13,32 @@ public  abstract class Entity : IEquatable<Entity>
 
     #region Properties
 
-    public Guid Id { get; private init; }
-    public DateTime InsertionDate { get; private init; }
-    public DateTime LastModified { get; private set; }
+    public Guid Id { get; protected init; }
 
+    private readonly List<IDomainEvent> _domainEvents = new();
+    
     #endregion
 
     #region Methods
-
-    public void UpdateLastModified()
+    
+    [NotMapped]
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+    
+    public void AddDomainEvent(IDomainEvent domainEvent)
     {
-        LastModified = DateTime.UtcNow;
+        _domainEvents.Add(domainEvent);
     }
 
+    public void RemoveDomainEvent(IDomainEvent domainEvent)
+    {
+        _domainEvents.Remove(domainEvent);
+    }
+
+    public void ClearDomainEvents()
+    {
+        _domainEvents.Clear();
+    }
+    
     #endregion
 
     #region Operators
