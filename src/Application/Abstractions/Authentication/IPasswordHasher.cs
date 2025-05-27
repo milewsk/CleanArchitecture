@@ -2,6 +2,6 @@ namespace Application.Abstractions.Authentication;
 
 public interface IPasswordHasher
 {
-    bool Hash(string password);
+    string Hash(string password);
     bool Verify(string password, string hashPassword);
 }
