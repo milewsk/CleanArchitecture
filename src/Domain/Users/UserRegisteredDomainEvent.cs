@@ -1,6 +1,8 @@
+using Common;
+
 namespace Domain.Users;
 
-public class UserRegisteredDomainEvent
+public class UserRegisteredDomainEvent(Guid id) : IDomainEvent
 {
     
 }
